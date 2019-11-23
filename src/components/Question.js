@@ -1,5 +1,5 @@
 import React, {useState, useEffect}  from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
+import { Text } from 'react-native';
 import Logo from '../images/Talk_Logo.png'
 import Microphone from '../images/microphone.png'
 import Tts from 'react-native-tts';
@@ -40,7 +40,7 @@ function Question({aula, exercicio, enunciado, alternativaPress, lingua, listenP
     }else{
       buttons = (
         <SpeakButton onPress={() => listenPress()}> 
-          <SpeakIcon source={Microphone}></SpeakIcon>
+          <SpeakIcon source={Microphone}><Text>Aperte para falar!</Text></SpeakIcon>
         </SpeakButton>
       )
     }

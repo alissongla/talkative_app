@@ -49,8 +49,6 @@ const SpeakIcon = styled.Image`
   height: 90%;
   width: 90%;
   resizeMode: contain;
-
-  
 `;
 
 const TalkHeader = styled.View`

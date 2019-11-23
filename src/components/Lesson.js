@@ -33,7 +33,7 @@ function Lesson({aula, aulaTitulo, handleExercises, textDescription, modCod, nav
           <TextLesson>{textDescription}</TextLesson>
         </TalkTextView>
         <Button onPress={handleExercises}>
-          <ButtonText>Proxima atividade</ButtonText>
+          <ButtonText>Próxima atividade</ButtonText>
         </Button>
         </Container>
     );
