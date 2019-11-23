@@ -1,5 +1,4 @@
 import React, {useState, useEffect}  from 'react';
-import { Text } from 'react-native';
 import Logo from '../images/Talk_Logo.png'
 import Microphone from '../images/microphone.png'
 import Tts from 'react-native-tts';
