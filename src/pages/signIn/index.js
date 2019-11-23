@@ -30,9 +30,9 @@ export default function SignIn ({navigation}){
       async function loadUser(){
         const token = await AsyncStorage.getItem('talkative_token')
         await AsyncStorage.getItem('talkative_module').then(lesson => {
-            if (token != '' && lesson == 0){
+            if (token !== null && lesson == 0){
               navigation.navigate('Main');
-            }else if(token != '' && lesson != 0){
+            }else if(token !== null && lesson != 0){
               navigation.navigate('Lessons');
             }
           })
