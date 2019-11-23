@@ -27,7 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         public boolean getUseDeveloperSupport() {
-          return BuildConfig.CODEPUSH_KEY;
+          return BuildConfig.DEBUG;
         }
 
             @Override
@@ -35,7 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
+          packages.add(new CodePush(BuildConfig.CODEPUSH_KEY, MainApplication.this, BuildConfig.DEBUG));
           //packages.add(new VoicePackage());
           return packages;
         }
