@@ -27,7 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         public boolean getUseDeveloperSupport() {
-          return BuildConfig.DEBUG;
+          return BuildConfig.CODEPUSH_KEY;
         }
 
             @Override
