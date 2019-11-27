@@ -48,7 +48,8 @@ export default function Exercise ({props, navigation}){
     var correto = 0;
     for(var i = 0; i < respostas.length; i++){
       if(respostas[i] == respostaCerta){
-        Tts.speak('Correct', { androidParams: { KEY_PARAM_PAN: -1, KEY_PARAM_VOLUME: 0.3, KEY_PARAM_STREAM: 'STREAM_MUSIC' } })
+        Tts.speak('Correct', 
+        { androidParams: { KEY_PARAM_PAN: -1, KEY_PARAM_VOLUME: 0.3, KEY_PARAM_STREAM: 'STREAM_MUSIC' } })
         setQuestion(question + 1);
         correto = 1;
         break;

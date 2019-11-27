@@ -39,7 +39,7 @@ function Question({aula, exercicio, enunciado, alternativaPress, lingua, listenP
     }else{
       buttons = (
         <SpeakButton onPress={() => listenPress()}> 
-          <SpeakIcon source={Microphone}><Text>Aperte para falar!</Text></SpeakIcon>
+          <SpeakIcon source={Microphone}></SpeakIcon>
         </SpeakButton>
       )
     }
