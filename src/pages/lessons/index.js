@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 
-import { View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Tts from 'react-native-tts';
 
@@ -9,16 +8,7 @@ import api from '../../services/api';
 import Logo from '../../images/Talk_Logo.png';
 
 import {
-  Container,
-  Button,
-  ButtonText,
-  HeaderIndicator,
-  TalkHeader,
-  TalkHeaderText,
-  LogoHeader,
-  TalkTextView,
-  TextTitle,
-  TextLesson
+  Container
 } from './styles';
 import Lesson from '../../components/Lesson';
 
@@ -27,7 +17,6 @@ export default function Lessons ({navigation}){
   const[count, setCount] = useState(0);
   const[class_id, setClass_id] = useState('');
   const[module_id, setModule_id] = useState('');
-  const[exercise_id, setExercise_id] = useState('');
   const[text_id, setText_id] = useState('');
   const[textDescription, setTextDescription] = useState('');
   const[classTitle, setClassTitle] = useState('');

@@ -2,25 +2,17 @@ import React, {useState, useEffect} from 'react';
 
 import { ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import Tts from 'react-native-tts';
 
 import api from '../../services/api';
 
-import Logo from '../../images/Talk_Logo.png';
 
 import {
   Container,
   Button,
   ButtonText,
   HeaderIndicator,
-  TalkHeader,
-  TalkHeaderText,
-  LogoHeader,
-  TalkTextView,
-  TextTitle,
-  TextLesson
+  TalkHeader
 } from './styles';
-import DoubleTap from '../../components/DoubleTap';
 
 export default function Main ({navigation}){
   const[modules, setModules] = useState([]);

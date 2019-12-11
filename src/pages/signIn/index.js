@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import { StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';

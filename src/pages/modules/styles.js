@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+const ScrollableContainer = styled.ScrollView`
+  flex: 1;
+  backgroundColor: #F5F5F5;
+`;
+
 const Container = styled.View`
   flex: 1;
   
@@ -77,4 +82,4 @@ const TextLesson = styled.Text`
   textAlign: center;
 `;
 
-export { Container, Button, ButtonText, HeaderIndicator, TalkHeader, TalkHeaderText, LogoHeader, TalkTextView , TextTitle, TextLesson};
+export { ScrollableContainer, Container, Button, ButtonText, HeaderIndicator, TalkHeader, TalkHeaderText, LogoHeader, TalkTextView , TextTitle, TextLesson};
