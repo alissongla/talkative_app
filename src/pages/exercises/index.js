@@ -206,7 +206,7 @@ export default function Exercise ({props, navigation}){
         <Question 
           key={exeCod}
           exercicio={question+1} 
-          aula={class_cod}
+          aula={class_cod+1}
           enunciado={enunciado}
           lingua={lingua}
           alternativaPress={handleExerciseAnswer}
