@@ -94,8 +94,6 @@ export default function Lessons ({navigation}){
         const classLength = await AsyncStorage.getItem('talkative_classLength');
         if(count >= classLength && lessons == undefined) {navigation.navigate('Main');}
         if(lessons !== undefined){
-          console.log('----------------');
-          
           if(count < lessons.length){
             
             aula = parseInt(count)+1;
@@ -134,7 +132,7 @@ export default function Lessons ({navigation}){
         Tts.setDefaultLanguage('pt-BR');
         Tts.setDefaultRate(0.5);
         Tts.speak(classTitle.toString());
-        Tts.setDefaultRate(0.2);
+        Tts.setDefaultRate(0.5);
         Tts.speak(textDescription.toString(), { androidParams: { KEY_PARAM_PAN: 0, } })
       },1000)
     }
