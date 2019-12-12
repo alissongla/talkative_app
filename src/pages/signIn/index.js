@@ -28,19 +28,19 @@ export default function SignIn ({navigation}){
   const [error,setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // useEffect(()=>{
-  //     async function loadUser(){
-  //       const token = await AsyncStorage.getItem('talkative_token')
-  //       await AsyncStorage.getItem('talkative_module').then(lesson => {
-  //           if (token !== null && lesson == 0){
-  //             navigation.navigate('Main');
-  //           }else if(token !== null && lesson != 0){
-  //             navigation.navigate('Lessons');
-  //           }
-  //         })
-  //     }
-  //     loadUser()
-  //   },[]);
+  useEffect(()=>{
+      async function loadUser(){
+        const token = await AsyncStorage.getItem('talkative_token')
+        await AsyncStorage.getItem('talkative_module').then(lesson => {
+            if (token !== null && lesson == 0){
+              navigation.navigate('Main');
+            }else if(token !== null && lesson != 0){
+              navigation.navigate('Lessons');
+            }
+          })
+      }
+      loadUser()
+    },[]);
   
   function handleCreateAccountPress () {
     navigation.navigate('SignUp');
