@@ -23,7 +23,7 @@ import Question from '../../components/Question';
 import { tsStringKeyword } from '@babel/types';
 
 
-
+var count = 0;
 export default function Exercise ({props, navigation}){
   const[error, setError] = useState('');
   const[exercises, setExercises] = useState();
@@ -59,6 +59,51 @@ export default function Exercise ({props, navigation}){
         Tts.speak(`Incorrect, the answer correct is ${respostaCerta}`, { androidParams: { KEY_PARAM_PAN: -1, KEY_PARAM_VOLUME: 0.3, KEY_PARAM_STREAM: 'STREAM_MUSIC' } })
       }
   };
+  async function alterParams() {
+    try {
+      
+      if(exercises !== undefined){
+        const classNumber = await AsyncStorage.getItem('talkative_classNumber');
+        const classLength = await AsyncStorage.getItem('talkative_classLength');
+        const countClass = await AsyncStorage.getItem('talkative_count');
+        if(question < exercises.length){
+          count = parseInt(countClass)+1;
+          setClass_cod(exercises[question].AUL_CODIGO)
+          setEnunciado(exercises[question].EXE_ENUNCIADO)
+          setExeCod(exercises[question].EXE_CODIGO)
+          setLingua(exercises[question].EXE_LINGUA)
+        }else{
+          if(classNumber > classLength){
+            navigation.navigate('Main')
+          }else{
+            await AsyncStorage.setItem('talkative_count', count.toString());
+            navigation.navigate('Lessons')
+          }
+
+        }
+      }
+    }catch(_err){
+      setError('Houve um problema ao carregar o exercício!');
+    }
+  }
+
+  async function loadExercises() {
+    try{
+      const codClass = await AsyncStorage.getItem('talkative_class')
+      const userToken = await AsyncStorage.getItem('talkative_token')
+      const exerciseResponse = await api.get(`/exercise/${codClass}`, {
+      headers: {
+        'Authorization': 'Bearer ' + userToken
+      }
+    });
+    
+    if(exercises != exerciseResponse.data)
+      await setExercises(exerciseResponse.data)
+    }catch(_err){
+      setError('Houve um problema ao carregar o exercício!');
+    }
+    setTimeout(() => {alterParams()},1000)
+  }
 
   useEffect(() => {
     if(enunciado != undefined){
@@ -79,23 +124,10 @@ export default function Exercise ({props, navigation}){
   }, [enunciado])
 
   useEffect(() => {
-    async function loadExercises() {
-      try{
-        const codClass = await AsyncStorage.getItem('talkative_class')
-        const userToken = await AsyncStorage.getItem('talkative_token')
-        const exerciseResponse = await api.get(`/exercise/${codClass}`, {
-        headers: {
-          'Authorization': 'Bearer ' + userToken
-        }
-      });
-      
-      if(exercises != exerciseResponse.data)
-        await setExercises(exerciseResponse.data)
-      }catch(_err){
-        setError('Houve um problema ao carregar o exercício!');
-      }
+    async function load(){
+      await loadExercises();
     }
-    loadExercises();
+    load();
   },[exercises])
 
 
@@ -129,35 +161,9 @@ export default function Exercise ({props, navigation}){
     setParams()
   },[exercises])
 
-  useEffect(() => {
-    async function alterParams() {
-      try {
-        const classNumber = await AsyncStorage.getItem('talkative_classNumber');
-        const classLength = await AsyncStorage.getItem('talkative_classLength');
-        const countClass = await AsyncStorage.getItem('talkative_count');
-        var count = parseInt(countClass)+1;
-        if(exercises !== undefined){
-          if(question < exercises.length){
-            setClass_cod(exercises[question].AUL_CODIGO)
-            setEnunciado(exercises[question].EXE_ENUNCIADO)
-            setExeCod(exercises[question].EXE_CODIGO)
-            setLingua(exercises[question].EXE_LINGUA)
-          }else{
-            if(classNumber == classLength){
-              navigation.navigate('Main')
-            }else{
-              await AsyncStorage.setItem('talkative_count', count.toString());
-              navigation.navigate('Lessons')
-            }
-
-          }
-        }
-      }catch(_err){
-        setError('Houve um problema ao carregar o exercício!');
-      }
-    }
-    alterParams()
-  },[question])
+  // useEffect(() => {
+  //   setTimeout(() => {alterParams()},500)
+  // },[question])
 
   async function handleExerciseAnswer(resposta){
     Tts.stop();

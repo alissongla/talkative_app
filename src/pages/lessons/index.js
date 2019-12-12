@@ -12,6 +12,9 @@ import {
 } from './styles';
 import Lesson from '../../components/Lesson';
 
+var contador = 0;
+var aula = 0;
+
 export default function Lessons ({navigation}){
   const[lessons, setLessons] = useState();
   const[count, setCount] = useState(0);
@@ -22,6 +25,8 @@ export default function Lessons ({navigation}){
   const[classTitle, setClassTitle] = useState('');
   const [error,setError] = useState('');
   const[modCod, setModCod] = useState('');
+
+  
 
   async function loadText() {
     const codModule = await AsyncStorage.getItem('talkative_module')
@@ -68,7 +73,6 @@ export default function Lessons ({navigation}){
   async function setParams() {
     const countClass = await AsyncStorage.getItem('talkative_count');
     const aulaN = (countClass == undefined) ? '0' : countClass;
-
     try {
         if(lessons !== undefined){
           setClass_id(lessons[count].AUL_CODIGO)
@@ -85,34 +89,43 @@ export default function Lessons ({navigation}){
   }
 
   async function alterParams() {
-    try {
-      if(lessons !== undefined){
-        if(count < lessons.length){
-          var aula = parseInt(count)+1;
-          setClass_id(lessons[count].AUL_CODIGO)
-          setClassTitle(lessons[count].AUL_NOME)
-          setModule_id(lessons[count].MOD_CODIGO)
-          setText_id(lessons[count].TXT_CODIGO)
-          await AsyncStorage.setItem('talkative_classNumber', aula.toString());  
-        }else{
-          await AsyncStorage.setItem('talkative_module','0');
-          await AsyncStorage.setItem('talkative_count', '0');
-          const userToken = await AsyncStorage.getItem('talkative_token')
-            await api.put(`/users`, {
-              MOD_CODIGO: null,
-              AUL_CODIGO: null,
-            },
-            {
-              headers: {
-                'Authorization': 'Bearer ' + userToken
-              }
-            });
-          navigation.navigate('Main');
+    setTimeout(async() => {
+      try {
+        const classLength = await AsyncStorage.getItem('talkative_classLength');
+        if(count >= classLength && lessons == undefined) {navigation.navigate('Main');}
+        if(lessons !== undefined){
+          console.log('----------------');
+          
+          if(count < lessons.length){
+            
+            aula = parseInt(count)+1;
+            
+            setClass_id(lessons[count].AUL_CODIGO)
+            setClassTitle(lessons[count].AUL_NOME)
+            setModule_id(lessons[count].MOD_CODIGO)
+            setText_id(lessons[count].TXT_CODIGO)
+            await AsyncStorage.setItem('talkative_classNumber', aula.toString());  
+            
+          }else{
+            await AsyncStorage.setItem('talkative_module','0');
+            await AsyncStorage.setItem('talkative_count', '0');
+            const userToken = await AsyncStorage.getItem('talkative_token')
+              await api.put(`/users`, {
+                MOD_CODIGO: null,
+                AUL_CODIGO: null,
+              },
+              {
+                headers: {
+                  'Authorization': 'Bearer ' + userToken
+                }
+              });
+            navigation.navigate('Main');
+          }
         }
+      }catch(_err){
+        setError('Houve um problema ao carregar a aula!');
       }
-    }catch(_err){
-      setError('Houve um problema ao carregar a aula!');
-    }
+    }, 1000);
   }
 
   useEffect(() => {
@@ -139,13 +152,18 @@ export default function Lessons ({navigation}){
     async function load(){
       await getClassInfo()
       await loadText();
+
+      setTimeout(() => {
+        alterParams()
+      }, 10);
     }
     load();
   },[text_id])
   
 useEffect(() =>{
+  setCount(0);
   async function load(){
-    await getClassInfo()
+    await getClassInfo() 
   }
   load();
 },[])
@@ -159,7 +177,9 @@ useEffect(() => {
 
 useEffect(() => {
   async function load(){
-    await alterParams()
+    setTimeout(() => {
+      alterParams()
+    }, 500); 
   }
   load();
 },[count])
@@ -176,7 +196,6 @@ async function handleExercises(){
       'Authorization': 'Bearer ' + userToken
     }
   })
-    
   if(exercisesResponse.data == ''){
       await _redirectLesson()
     }
@@ -188,14 +207,14 @@ async function handleExercises(){
 async function _redirectLesson(){
   const countClass = await AsyncStorage.getItem('talkative_count');
   var c = parseInt(countClass)+1;
-  await AsyncStorage.setItem('talkative_count', count.toString());
+  await AsyncStorage.setItem('talkative_count', c.toString());
   setCount(c)
 }
   return (
         <Container>
             <Lesson 
             key={class_id}
-            aula={parseInt(count) + 1}
+            aula={aula}
             aulaTitulo={classTitle} 
             textCod={text_id}
             handleExercises={handleExercises}
