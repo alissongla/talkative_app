@@ -16,6 +16,8 @@ import {
   SignUpLinkText,
 } from './styles';
 
+import { ActivityIndicator } from 'react-native';
+
 export default function SignIn ({navigation}){
   const navigationOptions = {
     header: null,
@@ -24,26 +26,28 @@ export default function SignIn ({navigation}){
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
   const [error,setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
-      async function loadUser(){
-        const token = await AsyncStorage.getItem('talkative_token')
-        await AsyncStorage.getItem('talkative_module').then(lesson => {
-            if (token !== null && lesson == 0){
-              navigation.navigate('Main');
-            }else if(token !== null && lesson != 0){
-              navigation.navigate('Lessons');
-            }
-          })
-      }
-      loadUser()
-    },[]);
+  // useEffect(()=>{
+  //     async function loadUser(){
+  //       const token = await AsyncStorage.getItem('talkative_token')
+  //       await AsyncStorage.getItem('talkative_module').then(lesson => {
+  //           if (token !== null && lesson == 0){
+  //             navigation.navigate('Main');
+  //           }else if(token !== null && lesson != 0){
+  //             navigation.navigate('Lessons');
+  //           }
+  //         })
+  //     }
+  //     loadUser()
+  //   },[]);
   
   function handleCreateAccountPress () {
     navigation.navigate('SignUp');
   };
 
   async function handleSignInPress () {
+    setLoading(true);
     await loadInputs()
     const userToken = await AsyncStorage.getItem('talkative_token')
     try {
@@ -57,8 +61,10 @@ export default function SignIn ({navigation}){
       await AsyncStorage.setItem('talkative_class', toString(codClass));
       await AsyncStorage.setItem('talkative_module', toString(codMod));
       if(codMod == '0'){
+        setLoading(false);
         navigation.navigate('Main');
       }else{
+        setLoading(false);
         navigation.navigate('Lessons');
       }
       navigation.navigate('Main');
@@ -104,6 +110,10 @@ export default function SignIn ({navigation}){
           secureTextEntry
         />
         {error.length !== 0 && <ErrorMessage>{error}</ErrorMessage>}
+        <ActivityIndicator 
+        animating = {loading}
+        size="large" 
+        color="#0000ff"/>
         <Button onPress={handleSignInPress}>
           <ButtonText>Entrar</ButtonText>
         </Button>

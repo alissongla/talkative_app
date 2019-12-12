@@ -131,7 +131,7 @@ export default function Lessons ({navigation}){
   useEffect(() => {
     if(textDescription != undefined){
       setTimeout(() => {
-        Tts.setDefaultLanguage('en-US');
+        Tts.setDefaultLanguage('pt-BR');
         Tts.setDefaultRate(0.5);
         Tts.speak(classTitle.toString());
         Tts.setDefaultRate(0.2);

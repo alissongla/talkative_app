@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
-import { StatusBar } from 'react-native';
+import { StatusBar, ActivityIndicator } from 'react-native';
 
 import api from '../../services/api';
+
 
 import {
   Container,
@@ -35,13 +36,16 @@ export default function SignUp ({navigation}) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
 
   async function handleBackToLoginPress () {
     await navigation.navigate('SignIn');
   };
 
   async function handleSignUpPress () {
+    setLoading(true);
     if (email.length === 0 || password.length === 0) {
+      setLoading(false);
       setError('Preencha todos os campos para continuar!');
     } else {
       try {
@@ -54,12 +58,14 @@ export default function SignUp ({navigation}) {
 
         setTimeout(goToLogin, 2500);
       } catch (_err) {
+        setLoading(false);
         setError('Houve um problema com o cadastro, verifique os dados preenchidos!');
       }
     }
   };
 
   function goToLogin () {
+    setLoading(false);
     navigation.navigate('SignIn');
   }
     return (
@@ -90,6 +96,10 @@ export default function SignUp ({navigation}) {
           secureTextEntry
         />
         {error.length !== 0 && <ErrorMessage>{error}</ErrorMessage>}
+        <ActivityIndicator 
+        animating = {loading}
+        size="large" 
+        color="#0000ff"/>
         <Button onPress={handleSignUpPress}>
           <ButtonText>Criar conta</ButtonText>
         </Button>
