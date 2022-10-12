@@ -15,7 +15,7 @@
     "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-native": "0.61.2",
-    "react-native-code-push": "^5.7.0",
+    "react-native-code-push": "^7.0.5",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-onesignal": "^3.5.0",
     "react-native-tts": "^3.0.0",
